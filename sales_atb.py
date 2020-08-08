@@ -10,6 +10,10 @@ soup = BeautifulSoup(page.content, features='html.parser')
 def Products():
     allProducts = soup.find_all('div', class_='promo_info')
     resultJson = []
+    resultJson.append({
+        'shopName' :  soup.find('div', class_='hot_line_block').text[39:-14]
+
+    })
     for i in allProducts:
         price = i.find('span', class_='promo_old_price')
         if price:
