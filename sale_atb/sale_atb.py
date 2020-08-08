@@ -8,14 +8,14 @@ soup = BeautifulSoup(page.content, features='html.parser')
 
 
 def Products():
-    allProducts = soup.find_all('div', class_='promo_info')
+    allProducts_disc = soup.find_all('div', class_='promo_info')
     result = []
     result.append({
-        'shopName': soup.find('div', class_='hot_line_block').text[39:-14].replace(" ", '')
+        'shopName': soup.find('div', class_='hot_line_block').text[39:-14].replace(" ", "")
         # search for the store name on the page                 #the replace method is used for good text design
 
     })
-    for i in allProducts:
+    for i in allProducts_disc:
         price = i.find('span', class_='promo_old_price')
         if price:
             price = price.get_text(strip=True)
@@ -39,7 +39,7 @@ def Products():
                     'span').text,
                 # the replace method is used for good text design
                 # that the new price came out in a format for example 20.00 instead of 2000
-                'discount': str(discount),
+                'discount': str(discount).replace(" ", ""),
             }]
 
         })
