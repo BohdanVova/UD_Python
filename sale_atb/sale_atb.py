@@ -11,7 +11,7 @@ def Products():
     allProducts = soup.find_all('div', class_='promo_info')
     resultJson = []
     resultJson.append({
-        'shopName' :  soup.find('div', class_='hot_line_block').text[39:-14]
+        'shopName': soup.find('div', class_='hot_line_block').text[39:-14]  # search for the store name on the page
 
     })
     for i in allProducts:
@@ -28,22 +28,25 @@ def Products():
             discount = "empty"
 
         nameProduct = i.find('span', class_='promo_info_text').get_text(strip=True)
-        newPrice = i.find('div', class_='promo_price').text[:-4]
+        newPrice = i.find('div', class_='promo_price').text[:-7]
         resultJson.append({
-            'name': nameProduct,
-            'oldPrice': price,
-            'newPrice': int(newPrice),
-            'discount': str(discount),
+            'promotions_information': [{
+                'productName': nameProduct,
+                'oldPrice': price,
+                'newPrice': str(newPrice) + "." + i.find('div', class_='promo_price').find('span').text,
+                # that the new price came out in a format for example 20.00 instead of 2000
+                'discount': str(discount),
+            }]
 
         })
-
-
-
+        
     return resultJson
+
 
 start = time.perf_counter()
 forecast = Products()
-print('Forecast gathering time: {}'.format(time.perf_counter() - start))
+print('Forecast gathering time: {}'.format(
+    time.perf_counter() - start))  # additionally searching for time, it was interesting to learn
 
 with open('Products-{}.json'.format(time.strftime('%Y-%m-%d')), 'w') as jsonFile:
     json.dump(forecast, jsonFile)
