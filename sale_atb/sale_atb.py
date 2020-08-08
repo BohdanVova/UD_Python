@@ -48,9 +48,9 @@ def Products():
 
 
 start = time.perf_counter()
-forecast = Products()
+process = Products()
 print('Forecast gathering time: {}'.format(
     time.perf_counter() - start))  # additionally searching for time, it was interesting to learn
 
 with open('Products-{}.json'.format(time.strftime('%Y-%m-%d')), 'w') as jsonFile:
-    json.dump(forecast, jsonFile)
+    json.dump(process, jsonFile)
