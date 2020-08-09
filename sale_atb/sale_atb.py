@@ -10,6 +10,9 @@ def main():
     allProducts_disc = soup.find_all('div', class_='promo_info')
     result = {}
     result['shopName'] = soup.find('div', class_='hot_line_block').text[39:-14].strip()
+
+    # slice [39:-14] I used to get the name of the store from the variable
+    # soup (from the front I cut the text before the name and behind the same)
     results = []
     for i in allProducts_disc:
         price = i.find('span', class_='promo_old_price')
