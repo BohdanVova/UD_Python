@@ -1,17 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
-import time
 import json
 
 page = requests.get('https://www.atbmarket.com/hot/akcii/economy')
 soup = BeautifulSoup(page.content, features='html.parser')
 
 
-def Products():
+def main():
     allProducts_disc = soup.find_all('div', class_='promo_info')
     result = []
     result.append({
-        'shopName': soup.find('div', class_='hot_line_block').text[39:-14].replace(" ", "")
+        'shopName': soup.find('div', class_='hot_line_block').text[39:-14].strip()
         # search for the store name on the page                 #the replace method is used for good text design
 
     })
@@ -34,23 +33,19 @@ def Products():
             'promotions_information': [{
                 'productName': nameProduct,
                 'oldPrice': price,
-                'newPrice': str(newPrice).replace(' ', '').replace('\n', '') + "." + i.find('div',
+                'newPrice': str(newPrice).strip() + "." + i.find('div',
                                                                                             class_='promo_price').find(
                     'span').text,
                 # the replace method is used for good text design
                 # that the new price came out in a format for example 20.00 instead of 2000
-                'discount': str(discount).replace(" ", ""),
+                'discount': str(discount).strip(),
             }]
 
         })
 
-    return result
+    with open('Products.json', 'w') as jsonFile:
+        json.dump(result, jsonFile)
 
+if __name__ == "__main__":
+    main()
 
-start = time.perf_counter()
-process = Products()
-print('Forecast gathering time: {}'.format(
-    time.perf_counter() - start))  # additionally searching for time, it was interesting to learn
-
-with open('Products-{}.json'.format(time.strftime('%Y-%m-%d')), 'w') as jsonFile:
-    json.dump(process, jsonFile)
