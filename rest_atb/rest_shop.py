@@ -8,7 +8,7 @@ product = ProductsInfo.Products()
 @app.route('/promotions/<nameShop>/', methods=['GET'])
 def promotions(nameShop):
     global product
-    nameShop = product['shopName']
+    nameShop = product['shopName']  # I add the name of the store to the url.
     print('withdrawal of all products at a discount')
     return jsonify(product)
 
