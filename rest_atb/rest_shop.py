@@ -19,7 +19,7 @@ def withDisc(nameShop):
     nameShop = product['shopName']
     dataPOST = request.get_json()
     discountMoreThan = int(dataPOST['discountMoreThan'])
-    withDiscount = {}  # I create a dictionary with a list and add data for better design with the POST method
+    withDiscount = {}  # I create a dictionary with a list and add data for better design with the POST method.
     products = []
     for i in product['promotions']:
         if i['discount'] > discountMoreThan:
